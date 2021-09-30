@@ -39,8 +39,8 @@ function drawNextPieces(ctx) {
 
 function drawTetrimino(currPiece) {
 	ctx.save();
-	ctx.fillStyle = currPiece.color;
-	let coordinates = currPiece.coord;
+	ctx.fillStyle = currPiece.getColor();
+	let coordinates = currPiece.getCoord();
 	for(var i=0;i<coordinates.length;i++) {
 		ctx.fillRect(coordinates[i].x*scale, coordinates[i].y*scale, scale, scale);
 	}
@@ -48,7 +48,7 @@ function drawTetrimino(currPiece) {
 }
 function eraseTetrimino(currPiece) {
 	ctx.save();
-	let coordinates = currPiece.coord;
+	let coordinates = currPiece.getCoord();
 	for(var i=0;i<coordinates.length;i++) {
 		ctx.clearRect(coordinates[i].x*scale, coordinates[i].y*scale, scale, scale);
 	}

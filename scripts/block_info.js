@@ -1,3 +1,453 @@
+class block{
+    constructor() {
+        this.type = null;
+        this.color = null;
+        this.direction = directionEnum.UP;
+        this.coord = [];
+    }
+    getDirection(){
+        return this.direction;
+    }
+    getType() {
+        return this.type;
+    }
+    getColor() {
+        return this.color;
+    }
+    getCoord() {
+        return this.coord;
+    }
+}
+
+class iBlock extends block {
+    constructor() {
+        super();
+        this.type = "I",
+		this.color = COLOR.LBLUE,
+		this.coord = [{x : 2, y : 0},
+                      {x : 2, y : 1},
+                      {x : 2, y : 2},
+                      {x : 2, y : 3}];
+    }
+    rotate() {
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                this.direction = directionEnum.UP;
+                this.coord = [{x : 2, y : 0},
+                              {x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 2, y : 3}];
+                break;
+            case directionEnum.UP:
+                this.direction = directionEnum.RIGHT;
+                this.coord = [{x : 0, y : 1},
+                              {x : 1, y : 1},
+                              {x : 2, y : 1},
+                              {x : 3, y : 1}];
+                break;
+            case directionEnum.RIGHT:
+                this.direction = directionEnum.DOWN;
+                this.coord = [{x : 2, y : 0},
+                              {x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 2, y : 3}];
+                break;
+            case directionEnum.DOWN:
+                this.direction = directionEnum.LEFT;
+                this.coord = [{x : 0, y : 1},
+                              {x : 1, y : 1},
+                              {x : 2, y : 1},
+                              {x : 3, y : 1}];
+                break;
+        }
+        return;
+    }
+    getRotatedCoords() {
+        let newCoord;
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                newCoord = [{x : 2, y : 0},
+                            {x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 2, y : 3}];
+                break;
+            case directionEnum.UP:
+                newCoord = [{x : 0, y : 1},
+                            {x : 1, y : 1},
+                            {x : 2, y : 1},
+                            {x : 3, y : 1}];
+                break;
+            case directionEnum.RIGHT:
+                newCoord = [{x : 2, y : 0},
+                            {x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 2, y : 3}];
+                break;
+            case directionEnum.DOWN:
+                newCoord = [{x : 0, y : 1},
+                            {x : 1, y : 1},
+                            {x : 2, y : 1},
+                            {x : 3, y : 1}];
+                break;
+        }
+        return newCoord;
+    }
+}
+
+class oBlock extends block{
+    constructor() {
+        super();
+        this.type = "O",
+		this.color = COLOR.YELLOW,
+		this.coord = [{x : 1, y : 1},
+					   {x : 1, y : 2},
+					   {x : 2, y : 1},
+					   {x : 2, y : 2}];
+    }
+    rotate() {
+        return;
+    }
+    getRotatedCoords() {
+        return this.coord;
+    }
+}
+
+class jBlock extends block{
+    constructor() {
+        super();
+        this.type = "J",
+		this.color = COLOR.BLUE,
+		this.coord = [{x : 1, y : 1},
+					   {x : 2, y : 1},
+					   {x : 1, y : 2},
+					   {x : 1, y : 3}];
+    }
+    
+    // methods
+    rotate() {
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                this.direction = directionEnum.UP;
+                this.coord = [{x : 1, y : 1},
+                              {x : 2, y : 1},
+                              {x : 1, y : 2},
+                              {x : 1, y : 3}];
+                break;
+            case directionEnum.UP:
+                this.direction = directionEnum.RIGHT;
+                this.coord = [{x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 1, y : 1},
+                              {x : 0, y : 1}];
+                break;
+            case directionEnum.RIGHT:
+                this.direction = directionEnum.DOWN;
+                this.coord = [{x : 2, y : 2},
+                              {x : 1, y : 2},
+                              {x : 2, y : 1},
+                              {x : 2, y : 0}];
+                break;
+            case directionEnum.DOWN:
+                this.direction = directionEnum.LEFT;
+                this.coord = [{x : 1, y : 2},
+                              {x : 1, y : 1},
+                              {x : 2, y : 2},
+                              {x : 3, y : 2}];
+                break;
+        }
+        return;
+    }
+    
+    getRotatedCoords() {
+        let newCoord;
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                newCoord = [{x : 1, y : 1},
+                            {x : 2, y : 1},
+                            {x : 1, y : 2},
+                            {x : 1, y : 3}];
+                break;
+            case directionEnum.UP:
+                newCoord = [{x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 1, y : 1},
+                            {x : 0, y : 1}];
+                break;
+            case directionEnum.RIGHT:
+                newCoord = [{x : 2, y : 2},
+                            {x : 1, y : 2},
+                            {x : 2, y : 1},
+                            {x : 2, y : 0}];
+                break;
+            case directionEnum.DOWN:
+                newCoord = [{x : 1, y : 2},
+                            {x : 1, y : 1},
+                            {x : 2, y : 2},
+                            {x : 3, y : 2}];
+                break;
+        }
+        return newCoord;
+    }
+}
+
+class lBlock extends block{
+    constructor() {
+        super();
+        this.type = "L",
+		this.color = COLOR.ORANGE,
+		this.coord = [{x : 1, y : 1},
+					  {x : 2, y : 1},
+					  {x : 2, y : 2},
+					  {x : 2, y : 3}]
+    }
+    
+    rotate() {
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                this.direction = directionEnum.UP;
+                this.coord = [{x : 1, y : 1},
+                              {x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 2, y : 3}]
+                break;
+            case directionEnum.UP:
+                this.direction = directionEnum.RIGHT;
+                this.coord = [{x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 1, y : 2},
+                              {x : 0, y : 2}];
+                break;
+            case directionEnum.RIGHT:
+                this.direction = directionEnum.DOWN;
+                this.coord = [{x : 2, y : 2},
+                              {x : 1, y : 2},
+                              {x : 1, y : 1},
+                              {x : 1, y : 0}];  
+                break;
+            case directionEnum.DOWN:
+                this.direction = directionEnum.LEFT;
+                this.coord = [{x : 1, y : 2},
+                              {x : 1, y : 1},
+                              {x : 2, y : 1},
+                              {x : 3, y : 1}];
+                
+                break;
+        }
+        return;
+    }
+    
+    getRotatedCoords() {
+        let newCoord;
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                newCoord = [{x : 1, y : 1},
+                            {x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 2, y : 3}]
+                break;
+            case directionEnum.UP:
+                newCoord = [{x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 1, y : 2},
+                            {x : 0, y : 2}];
+                break;
+            case directionEnum.RIGHT:
+                newCoord = [{x : 2, y : 2},
+                            {x : 1, y : 2},
+                            {x : 1, y : 1},
+                            {x : 1, y : 0}];  
+                break;
+            case directionEnum.DOWN:
+                newCoord = [{x : 1, y : 2},
+                            {x : 1, y : 1},
+                            {x : 2, y : 1},
+                            {x : 3, y : 1}];
+                break;
+        }
+        return newCoord;
+    }
+}
+
+class sBlock extends block{
+    constructor() {
+        super();
+        this.type = "S",
+		this.color = COLOR.GREEN,
+		this.coord = [{x : 1, y : 1},
+                      {x : 2, y : 1},
+                      {x : 2, y : 2},
+                      {x : 3, y : 2}]
+    }
+    
+    rotate() {
+        switch(this.direction) {
+            case directionEnum.RIGHT:
+                this.direction = directionEnum.UP;
+                this.coord = [{x : 1, y : 1},
+                              {x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 3, y : 2}]
+                break;
+            case directionEnum.UP:
+                this.direction = directionEnum.RIGHT;
+                this.coord = [{x : 2, y : 0},
+                              {x : 2, y : 1},
+                              {x : 1, y : 1},
+                              {x : 1, y : 2}];
+                break;
+        }
+        return;
+    }
+    
+    getRotatedCoords() {
+        let newCoord;
+        switch(this.direction) {
+            case directionEnum.RIGHT:
+                newCoord = [{x : 1, y : 1},
+                            {x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 3, y : 2}]
+                break;
+            case directionEnum.UP:
+                newCoord = [{x : 2, y : 0},
+                            {x : 2, y : 1},
+                            {x : 1, y : 1},
+                            {x : 1, y : 2}];
+                break;
+        }
+        return newCoord;
+    }
+}
+
+class tBlock extends block{
+    constructor() {
+        super();
+        this.type = "T",
+		this.color = COLOR.PURPLE,
+		this.coord = [{x : 1, y : 1},
+                      {x : 2, y : 1},
+					  {x : 2, y : 0},
+					  {x : 3, y : 1}]
+    }
+
+    rotate() {
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                this.direction = directionEnum.UP;
+                this.coord = [{x : 1, y : 1},
+                              {x : 2, y : 1},
+                              {x : 2, y : 0},
+                              {x : 3, y : 1}]
+                break;
+            case directionEnum.UP:
+                this.direction = directionEnum.RIGHT;
+                this.coord = [{x : 2, y : 0},
+                              {x : 2, y : 1},
+                              {x : 3, y : 1},
+                              {x : 2, y : 2}];
+                break;
+            case directionEnum.RIGHT:
+                this.direction = directionEnum.DOWN;
+                this.coord = [{x : 3, y : 1},
+                              {x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 1, y : 1}];  
+                break;
+            case directionEnum.DOWN:
+                this.direction = directionEnum.LEFT;
+                this.coord = [{x : 2, y : 2},
+                              {x : 2, y : 1},
+                              {x : 1, y : 1},
+                              {x : 2, y : 0}];
+                
+                break;
+        }
+        return;
+    }
+    
+    getRotatedCoords() {
+        let newCoord;
+        switch(this.direction) {
+            case directionEnum.LEFT:
+                newCoord = [{x : 1, y : 1},
+                            {x : 2, y : 1},
+                            {x : 2, y : 0},
+                            {x : 3, y : 1}]
+                break;
+            case directionEnum.UP:
+                newCoord = [{x : 0, y : 2},
+                            {x : 2, y : 1},
+                            {x : 3, y : 1},
+                            {x : 2, y : 2}];
+                break;
+            case directionEnum.RIGHT:
+                newCoord = [{x : 3, y : 1},
+                            {x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 1, y : 1}];  
+                break;
+            case directionEnum.DOWN:
+                newCoord = [{x : 2, y : 2},
+                            {x : 2, y : 1},
+                            {x : 1, y : 1},
+                            {x : 0, y : 3}];
+                break;
+        }
+        return newCoord;
+    }
+}
+
+class zBlock extends block{
+    constructor() {
+        super();
+        this.type = "Z",
+		this.color = COLOR.RED,
+		this.coord = [{x : 3, y : 1},
+					  {x : 2, y : 1},
+					  {x : 2, y : 2},
+					  {x : 1, y : 2}]
+    }
+    
+    rotate() {
+        switch(this.direction) {
+            case directionEnum.RIGHT:
+                this.direction = directionEnum.UP;
+                this.coord = [{x : 3, y : 1},
+                              {x : 2, y : 1},
+                              {x : 2, y : 2},
+                              {x : 1, y : 2}]
+                break;
+            case directionEnum.UP:
+                this.direction = directionEnum.RIGHT;
+                this.coord = [{x : 2, y : 0},
+                              {x : 2, y : 1},
+                              {x : 3, y : 1},
+                              {x : 3, y : 2}];
+                break;
+        }
+        return;
+    }
+    
+    getRotatedCoords() {
+        let newCoord;
+        switch(this.direction) {
+            case directionEnum.RIGHT:
+                newCoord = [{x : 3, y : 1},
+                            {x : 2, y : 1},
+                            {x : 2, y : 2},
+                            {x : 1, y : 2}]
+                break;
+            case directionEnum.UP:
+                newCoord = [{x : 2, y : 0},
+                            {x : 2, y : 1},
+                            {x : 3, y : 1},
+                            {x : 3, y : 2}];
+                break;
+        }
+        return newCoord;
+    }
+}
+
 const COLOR = Object.freeze({
 	LBLUE	: "#addaff",
 	YELLOW 	: "#ffff00",
@@ -14,105 +464,6 @@ const directionEnum = Object.freeze({
 	LEFT 	: "left",
 	RIGHT 	: "right",
 });
-
-const tetrisCoordinates = new Map([
-  ['10', [3, 1]],
-  ['31', [2, 3]],
-  ['23', [0, 2]],
-  ['02', [1, 0]],
-  ['20', [3, 2]],
-  ['32', [1, 3]],
-  ['13', [0, 1]],
-  ['01', [2, 0]],
-  ['11', [2, 1]],
-  ['21', [2, 2]],
-  ['22', [1, 2]],
-  ['12', [1, 1]]
-]);
-
-function getIPiece() {
-	return {
-		type		: "I",
-		color 		: COLOR.LBLUE,
-		direction	: directionEnum.UP,
-		coord		: [{x : 2, y : 0},
-					   {x : 2, y : 1},
-					   {x : 2, y : 2},
-					   {x : 2, y : 3}]
-	};
-}
-
-function getOPiece() {
-	return {
-		type		: "O",
-		color 		: COLOR.YELLOW,
-		direction	: directionEnum.UP,
-		coord		: [{x : 1, y : 1},
-					   {x : 1, y : 2},
-					   {x : 2, y : 1},
-					   {x : 2, y : 2}]
-	};
-}
-
-function getJPiece() {
-	return {
-		type		: "J",
-		color 		: COLOR.BLUE,
-		direction	: directionEnum.UP,
-		coord		: [{x : 1, y : 1},
-					   {x : 2, y : 1},
-					   {x : 1, y : 2},
-					   {x : 1, y : 3}]
-	};
-}
-
-function getLPiece() {
-	return {
-		type		: "L",
-		color 		: COLOR.ORANGE,
-		direction	: directionEnum.UP,
-		coord		: [{x : 1, y : 1},
-					   {x : 2, y : 1},
-					   {x : 2, y : 2},
-					   {x : 2, y : 3}]
-	};
-}
-
-function getSPiece() {
-	return {
-		type		: "S",
-		color 		: COLOR.GREEN,
-		direction	: directionEnum.UP,
-		coord		: [{x : 2, y : 1},
-					   {x : 3, y : 1},
-					   {x : 1, y : 2},
-					   {x : 2, y : 2}]
-	};
-}
-
-function getTPiece() {
-	return {
-		type		: "T",
-		color 		: COLOR.PURPLE,
-		direction	: directionEnum.UP,
-		coord		: [{x : 1, y : 1},
-					   {x : 2, y : 1},
-					   {x : 3, y : 1},
-					   {x : 2, y : 2}]
-	};
-}
-
-function getZPiece() {
-	return {
-		type		: "Z",
-		color 		: COLOR.RED,
-		direction	: directionEnum.UP,
-		coord		: [{x : 0, y : 1},
-					   {x : 1, y : 1},
-					   {x : 1, y : 2},
-					   {x : 2, y : 2}]
-	};
-}
 
 class Block {
 	constructor(color) {

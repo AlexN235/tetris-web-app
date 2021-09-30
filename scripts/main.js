@@ -207,7 +207,7 @@ function moveRight() {
 	drawPiece(posX, posY, hand, ctx);
 	
 }
-function moveUp() {
+function rotate() {
 	if(!canRotate(hand))
 		return;
 	erasePiece(posX, posY, hand, ctx);
@@ -236,9 +236,9 @@ function scanDownwardsRecursive(piecePos) {
 
 // Helper functions
 function tetriminoToBlocks() {
-	blocks = hand.coord;
+	blocks = hand.getCoord();
 	for(var i=0;i<blocks.length;i++) {
-		addBlock(posX+blocks[i].x, posY+blocks[i].y, hand.color, grid);
+		addBlock(posX+blocks[i].x, posY+blocks[i].y, hand.getColor(), grid);
 	}
 	newTetrimino();
 }
@@ -269,8 +269,10 @@ function initializeEventListener() {
 			addToScore(1);
 			resetTimer();
 		}
-		if(e.keyCode === 38) 
-			moveUp();
+		if(e.keyCode === 38) {
+			rotate();
+            
+        }
 		if(e.keyCode === 16)
 			holdTetrimno();
 		if(e.keyCode === 32)
@@ -293,7 +295,7 @@ function initializeGrid() {
 
 function checkEndCondition() {
 	// check if hand piece 
-	handBlocks = hand.coord;
+	handBlocks = hand.getCoord();
 	for(i=0;i<handBlocks.length;i++) {
 		x = handBlocks[i].x + posX;
 		y = handBlocks[i].y + posY;

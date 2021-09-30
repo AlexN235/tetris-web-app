@@ -1,5 +1,5 @@
 function checkLeftBoundary(currPiece) {
-	let coordinates = currPiece.coord;
+	let coordinates = currPiece.getCoord();
 	for(var i=0;i<coordinates.length;i++) {
 		if(coordinates[i].x+posX <= gridX) {
 			return true;
@@ -11,7 +11,7 @@ function checkLeftBoundary(currPiece) {
 }
 
 function checkRightBoundary(currPiece) {
-	let coordinates = currPiece.coord;
+	let coordinates = currPiece.getCoord();
 	for(var i=0;i<coordinates.length;i++) {
 		if(coordinates[i].x+posX+1 >= gridX+gridWidth) {
 			return true;
@@ -23,7 +23,7 @@ function checkRightBoundary(currPiece) {
 }
 
 function checkBottomBoundary(currPiece) {
-	let coordinates = currPiece.coord;
+	let coordinates = currPiece.getCoord();
 	for(var i=0;i<coordinates.length;i++) {
 		if(coordinates[i].y+posY+1 >= gridY+gridHeight) {
 			return true;
@@ -36,10 +36,9 @@ function checkBottomBoundary(currPiece) {
 
 function canRotate(currPiece) {
 	// get rotated coordinates
-	let rotatedCoord;
-	for(var i=0;i<currPiece.coord.length;i++) {
-		rotatedCoord = tetrisCoordinates.get((currPiece.coord[i].x).toString() + (currPiece.coord[i].y).toString());
-		if(!rotationOutOfBoundaries(rotatedCoord[0], rotatedCoord[1])) // Add check for blocks.
+	let rotatedCoord = currPiece.getRotatedCoords();
+	for(var i=0;i<rotatedCoord.length;i++) {
+		if(!rotationOutOfBoundaries(rotatedCoord[i].x, rotatedCoord[i].y)) // Add check for blocks.
 			return false;
 	}
 	return true;
@@ -59,11 +58,10 @@ function rotationOutOfBoundaries(x, y) {
 }
 
 function setNextRotationCoordinates(currPiece) {
-	for(var i=0;i<currPiece.coord.length;i++) {
-		newCoord = tetrisCoordinates.get((currPiece.coord[i].x).toString() + (currPiece.coord[i].y).toString());
-		currPiece.coord[i].x = newCoord[0];
-		currPiece.coord[i].y = newCoord[1];
-	}
+    console.log(currPiece.direction);
+    currPiece.rotate();
+    console.log(currPiece.direction);
+    console.log("next");
 }
 
 function isBagEmpty() {
@@ -74,7 +72,7 @@ function isBagEmpty() {
 }
 
 function refillBag() {
-	bag = [getIPiece(), getOPiece(), getJPiece(), getLPiece(), getSPiece(), getTPiece(), getZPiece()]
+	bag = [new iBlock(), new oBlock(), new jBlock(), new lBlock(), new sBlock(), new tBlock(), new zBlock()]
 }
 
 function shuffle(arr) {
