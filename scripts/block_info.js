@@ -1,4 +1,4 @@
-class block{
+class block {
     constructor() {
         this.type = null;
         this.color = null;
@@ -92,6 +92,12 @@ class iBlock extends block {
         }
         return newCoord;
     }
+    getDisplayCoords() {
+        return [{x : 1, y : 0},
+                {x : 1, y : 1},
+                {x : 1, y : 2},
+                {x : 1, y : 3}];
+    }
 }
 
 class oBlock extends block{
@@ -100,15 +106,21 @@ class oBlock extends block{
         this.type = "O",
 		this.color = COLOR.YELLOW,
 		this.coord = [{x : 1, y : 1},
-					   {x : 1, y : 2},
-					   {x : 2, y : 1},
-					   {x : 2, y : 2}];
+                      {x : 1, y : 2},
+                      {x : 2, y : 1},
+                      {x : 2, y : 2}];
     }
     rotate() {
         return;
     }
     getRotatedCoords() {
         return this.coord;
+    }
+    getDisplayCoords() {
+        return [{x : 0, y : 1},
+                {x : 0, y : 2},
+                {x : 1, y : 1},
+                {x : 1, y : 2}];
     }
 }
 
@@ -118,9 +130,9 @@ class jBlock extends block{
         this.type = "J",
 		this.color = COLOR.BLUE,
 		this.coord = [{x : 1, y : 1},
-					   {x : 2, y : 1},
-					   {x : 1, y : 2},
-					   {x : 1, y : 3}];
+					  {x : 2, y : 1},
+					  {x : 1, y : 2},
+					  {x : 1, y : 3}];
     }
     
     // methods
@@ -187,6 +199,12 @@ class jBlock extends block{
                 break;
         }
         return newCoord;
+    }
+    getDisplayCoords() {
+        return [{x : 1, y : 0},
+                {x : 1, y : 1},
+                {x : 1, y : 2},
+                {x : 0, y : 2}];
     }
 }
 
@@ -266,6 +284,12 @@ class lBlock extends block{
         }
         return newCoord;
     }
+    getDisplayCoords() {
+        return [{x : 0, y : 0},
+                {x : 0, y : 1},
+                {x : 0, y : 2},
+                {x : 1, y : 2}];
+    }
 }
 
 class sBlock extends block{
@@ -316,6 +340,12 @@ class sBlock extends block{
                 break;
         }
         return newCoord;
+    }
+    getDisplayCoords() {
+        return [{x : 2, y : 1},
+                {x : 1, y : 1},
+                {x : 1, y : 2},
+                {x : 0, y : 2}];
     }
 }
 
@@ -395,6 +425,12 @@ class tBlock extends block{
         }
         return newCoord;
     }
+    getDisplayCoords() {
+        return [{x : 0, y : 2},
+                {x : 1, y : 2},
+                {x : 2, y : 2},
+                {x : 1, y : 1}];
+    }
 }
 
 class zBlock extends block{
@@ -445,6 +481,12 @@ class zBlock extends block{
                 break;
         }
         return newCoord;
+    }
+    getDisplayCoords() {
+        return [{x : 0, y : 1},
+                {x : 1, y : 1},
+                {x : 1, y : 2},
+                {x : 2, y : 2}];
     }
 }
 

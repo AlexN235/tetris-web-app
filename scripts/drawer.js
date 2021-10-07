@@ -16,23 +16,38 @@ function erasePiece(x, y, piece, ctx) {
 	ctx.restore();
 }
 
-function eraseArea(x, y, ctx) {
+function eraseArea(x, y, width, height, ctx) {
 	ctx.save();
-	ctx.translate(x*scale, y*scale);
-	ctx.clearRect(0, 0, 4*scale, 4*scale);
+	ctx.fillStyle = "black";
+	ctx.fillRect(x, y, width, height);
 	ctx.restore();
+}
+function eraseNextBlock() {
+    eraseArea((nextBox.x+0.1)*scale, (nextBox.y+0.1)*scale, (nextBox.width-0.2)*scale, (nextBox.height-0.2)*scale, ctx);
+}
+
+function eraseHoldBlock() {
+    eraseArea((holdBox.x+0.1)*scale, (holdBox.y+0.1)*scale, (holdBox.width-0.2)*scale, (holdBox.height-0.2)*scale, ctx);
 }
 
 function drawHold() {
-	holdPiece = hand;
-	erasePiece(1, 2, ctx)
+	holdPiece = hold;
+	eraseHoldBlock();
 	drawPiece(1, 2, holdPiece, ctx);
 }
 function drawNextPieces(ctx) {
+    let centeringDifference = 0;
+    let nextBlock;
+    eraseNextBlock();
 	for(var i=0;i<3;i++) {
 		ctx.save();
-		ctx.translate(19*scale, (4+(i*4))*scale);
-		drawTetrimino(nextTetriminoBox[i]);
+        nextBlock = nextTetriminoBox[i];
+        if(nextBlock.type == "O" || nextBlock.type == "J" || nextBlock.type == "L")
+            centeringDifference = 1.25;
+        else
+            centeringDifference = 0.75;
+		ctx.translate((nextBox.x+centeringDifference)*scale, (4+(i*5))*scale);
+		drawNextTetrimino(nextBlock);
 		ctx.restore();
 	}
 }
@@ -41,6 +56,15 @@ function drawTetrimino(currPiece) {
 	ctx.save();
 	ctx.fillStyle = currPiece.getColor();
 	let coordinates = currPiece.getCoord();
+	for(var i=0;i<coordinates.length;i++) {
+		ctx.fillRect(coordinates[i].x*scale, coordinates[i].y*scale, scale, scale);
+	}
+	ctx.restore();
+}
+function drawNextTetrimino(currPiece) {
+	ctx.save();
+	ctx.fillStyle = currPiece.getColor();
+	let coordinates = currPiece.getDisplayCoords();
 	for(var i=0;i<coordinates.length;i++) {
 		ctx.fillRect(coordinates[i].x*scale, coordinates[i].y*scale, scale, scale);
 	}
@@ -114,7 +138,8 @@ function drawLine(x, y) {
 	ctx.restore();
 }
 
-function drawHoldBox(x, y, width, height) {
+function drawBox(x, y, width, height) {
+    // Helper for drawHoldBox -- draws single box
 	ctx.save();
 	ctx.lineWidth = 2;
 	ctx.strokeStyle = "white";
@@ -126,19 +151,29 @@ function drawHoldBox(x, y, width, height) {
 	ctx.stroke();
 	ctx.restore();
 }
+function drawHoldBox(x, y, width, height) {
+    // draws boxes for the hold, score, next peices
+    drawBox(x, y, width, height);
+    drawBox(x-0.1, y-0.1, width+0.2, height+0.2);
+}
 
 function drawScoreBoard(ctx) {
-	ctx.fillText("Score:", scorePosition.x, scorePosition.y);
+    ctx.save();
+	ctx.fillText("Score:", scorePosition.x*scale, scorePosition.y*scale);
+    ctx.restore();
 }
 
 function displayScore(ctx) {
-	ctx.fillText(playerScore, scorePosition.x, scorePosition.y+50);
+    ctx.save();
+    ctx.fillStyle = "white";
+	ctx.fillText(playerScore, scorePosition.x*scale, (scorePosition.y+1)*scale);
+    ctx.restore();
 }
 
 function eraseScore() {
 	ctx.save();
 	ctx.fillStyle = "black";
-	ctx.fillRect(scorePosition.x-65, scorePosition.y+10, 130, 50);
+	ctx.fillRect((scorePosition.x-scoreBox.width/2)*scale, (scorePosition.y+0.1)*scale, 4*scale, 1.5*scale);
 	ctx.restore();
 }
 

@@ -25,8 +25,26 @@ var playerScore = 0;
 var scoreMultiplier = 1.0;
 
 var scorePosition = {
-	x: 105,
-	y: 350,
+	x: 3.5,
+	y: 10.5,
+}
+var holdBox = {
+    x: 1,
+    y: 2,
+    width: 4.5,
+    height: 5,
+}
+var scoreBox = {
+    x: 1,
+    y: 9,
+    width: 4.5,
+    height: 12,
+}
+var nextBox = {
+    x: 18.5,
+    y: 1,
+    width: 4.5,
+    height: 20,
 }
 
 // Run game
@@ -88,15 +106,10 @@ function startRound() {
 	nextTetriminoBox.unshift(bag.pop());
 	nextTetriminoBox.unshift(bag.pop());
 
-	// Draw screen
-	drawHoldBox(1, 2, 4, 4);
-	drawHoldBox(0.9, 1.9, 4.2, 4.2);
-	
-	drawHoldBox(1, 9, 4, 11);
-	drawHoldBox(0.9, 8.9, 4.2, 11.2);
-	
-	drawHoldBox(19, 1, 4, 20);
-	drawHoldBox(18.9, 0.9, 4.2, 20.2);
+	// Draw screen outside of play grid (score, hold, next pieces).
+    drawHoldBox(holdBox.x, holdBox.y, holdBox.width, holdBox.height);
+	drawHoldBox(scoreBox.x, scoreBox.y, scoreBox.width, scoreBox.height);
+	drawHoldBox(nextBox.x, nextBox.y, nextBox.width, nextBox.height);
 
 	// start timer
 	drawGridBackground();
@@ -221,8 +234,7 @@ function holdTetrimno() {
 	}
 	resetPosition();
 	[hand, hold] = [hold, hand];
-	eraseArea(1, 2, ctx);
-	drawPiece(1, 2, hold, ctx);
+	drawHold();
 }
 function dropPiece(currPiece) {
 	var dropCount = 0;
@@ -271,7 +283,6 @@ function initializeEventListener() {
 		}
 		if(e.keyCode === 38) {
 			rotate();
-            
         }
 		if(e.keyCode === 16)
 			holdTetrimno();
