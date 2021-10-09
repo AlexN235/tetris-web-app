@@ -19,10 +19,13 @@ var grid;
 var posX, posY, hand, hold;
 var boundaryLeft, boundaryRight, boundaryTop, boundaryBottom;
 var baseInterval, speedUpFactor, timer; // timer related variables
+var playerScore;
+var totalTetrimino;
 var bag = [];
 var nextTetriminoBox = [];
-var playerScore = 0;
+var baseScore = 1;
 var scoreMultiplier = 1.0;
+
 
 var scorePosition = {
 	x: 3.5,
@@ -99,6 +102,8 @@ function startRound() {
 	
 	baseInterval = 1000;
 	speedUpFactor = 1;
+    playerScore = 0;
+    totalTetrimino = 0;
 	
 	isBagEmpty();
 	hand = bag.pop();
@@ -140,7 +145,7 @@ function speedUp() {
 
 
 function getNewSpeed() {
-	speedUpFactor++;
+	speedUpFactor = totalTetrimino/20 + 1;
 	let newSpeed = (1000 + baseInterval) / (2 * speedUpFactor);
 	return newSpeed;
 }
@@ -153,6 +158,11 @@ function timeStep() {
 		return;
 	}
 	moveDown();
+    isBagEmpty(bag);
+    drawBlocks(grid);
+    drawGridBackground();
+    drawNextPieces(ctx);
+    speedUp();
 }
 
 function pause() {
@@ -187,21 +197,6 @@ function moveDown() {
 	drawPiece(posX, posY, hand, ctx);
 	drawGridBackground();
 	checkBlock();
-}
-
-function moveDownRecursive(hand) {
-	if(checkBottomBoundary(hand)) {
-		// stick blocks in hit boundary (also do it for when it hits another block)
-		tetriminoToBlocks();
-		resetTimer();
-		return 1;
-	}
-	erasePiece(posX, posY, hand, ctx);
-	posY++;
-	drawPiece(posX, posY, hand, ctx);
-	drawGridBackground();
-	checkBlock();
-	return scanDownwardsRecursive(hand);
 }
 
 function moveLeft() {
@@ -239,11 +234,26 @@ function holdTetrimno() {
 function dropPiece(currPiece) {
 	var dropCount = 0;
 	dropCount = scanDownwardsRecursive(currPiece);
-	addToScore(dropCount);
+	addToScore(baseScore*dropCount);
 }
 
 function scanDownwardsRecursive(piecePos) {
 	return moveDownRecursive(piecePos) + 1;
+}
+
+function moveDownRecursive(hand) {
+	if(checkBottomBoundary(hand)) {
+		// stick blocks in hit boundary (also do it for when it hits another block)
+		tetriminoToBlocks();
+		resetTimer();
+		return 1;
+	}
+	erasePiece(posX, posY, hand, ctx);
+	posY++;
+	drawPiece(posX, posY, hand, ctx);
+	drawGridBackground();
+	checkBlock();
+	return scanDownwardsRecursive(hand);
 }
 
 // Helper functions
@@ -258,6 +268,7 @@ function newTetrimino() {
 	hand = nextTetriminoBox.pop();
 	nextTetriminoBox.unshift(bag.pop());
 	resetPosition();
+    totalTetrimino++;
 }
 
 function resetPosition() {
@@ -278,7 +289,7 @@ function initializeEventListener() {
 		}
 		if(e.keyCode === 40) {
 			moveDown();
-			addToScore(1);
+			addToScore(baseScore);
 			resetTimer();
 		}
 		if(e.keyCode === 38) {
@@ -290,10 +301,12 @@ function initializeEventListener() {
 			dropPiece(hand);
 		if(e.keyCode === 17)
 			pauseGame();
+        
 		isBagEmpty(bag);
 		drawBlocks(grid);
 		drawGridBackground();
 		drawNextPieces(ctx);
+        speedUp();
 	});
 }
 
